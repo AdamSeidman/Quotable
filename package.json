@@ -1,0 +1,24 @@
+{
+  "name": "qrispy-quotes",
+  "version": "1.0.0",
+  "description": "Discord bot to track messages from users and requote them.",
+  "main": "client/client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamSeidman/qrispy-quotes.git"
+  },
+  "author": "Adam Seidman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AdamSeidman/qrispy-quotes/issues"
+  },
+  "homepage": "https://github.com/AdamSeidman/qrispy-quotes#readme",
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "eslint": "^8.40.0",
+    "sqlite3": "^5.1.6"
+  }
+}
