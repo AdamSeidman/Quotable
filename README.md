@@ -1,7 +1,7 @@
 # Qrispiet Quotes
 >[Discord](https://discord.com) bot to track messages from users and requote them.
 
-Click here: [Invite Link](google.com)
+Click here: [Invite Link](https://discord.com/oauth2/authorize?client_id=1106752785803902976&scope=bot&permissions=36807064418752)
 
 ## Build Setup
 1. Follow [these instructions](https://discordpy.readthedocs.io/en/latest/discord.html) on how to set up a bot with Discord.
