@@ -8,8 +8,8 @@
  *         Gets all quotes from messages database.
  *     addMessage-
  *         Given channelId and text, adds quote to db.
- *     recall-
- *         Runs a provided callback on random quote.
+ *     getQuote-
+ *         Returns a random quote, given constraints
  */
 
 const sqlite3 = require('sqlite3').verbose()
@@ -90,19 +90,16 @@ var addMessage = function (text, channelId, guildId, userId) {
     quotes.close()
 }
 
-var recall = function (callback, guildId, channelId) {
-    if (callback === undefined) return
-
+var getQuote = function (guildId, channelId) {
     let item = undefined
     if (channelId) {
         item = randomArrayItem(messages.filter(x => x.channelId === channelId))
     } else {
         item = randomArrayItem(messages.filter(x => x.guildId === guildId))
     }
-
-    callback(item)
+    return item
 }
 
 module.exports = {
-    addMessage, setup, recall
+    addMessage, setup, getQuote
 }

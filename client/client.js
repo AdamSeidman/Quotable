@@ -24,13 +24,12 @@ bot.on('ready', () => {
 
 bot.on('messageCreate', msg => {
     if (msg.content.toLowerCase().trim() === '!recall') {
-        db.recall(async quote => {
-            if (quote === undefined) {
-                msg.channel.send('There are no quotes to recall.')
-            } else {
-                recall.sendQuote(quote, true, msg.channel)
-            }
-        }, msg.guild.id)
+        let quote = db.getQuote(msg.guild.id)
+        if (quote === undefined) {
+            msg.channel.send('There are no quotes to recall.')
+        } else {
+            recall.sendQuote(quote, true, msg.channel)
+        }
     } else if (msg.member !== null && !msg.author.bot) {
         db.addMessage(msg.content, msg.channel.id, msg.guild.id, msg.member.id)
     }
