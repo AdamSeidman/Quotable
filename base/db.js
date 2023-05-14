@@ -76,11 +76,13 @@ var setup = function () {
     quotes.close()
 }
 
-var addMessage = function (text, channelId) {
+var addMessage = function (text, channelId, guildId, userId) {
     let quotes = getDatabase('messages')
     let quote = {
         text: text,
         channelId: channelId,
+        guildId: guildId,
+        userId: userId,
         timestamp: Date.now(),
         isExpired: 0
     }
@@ -90,10 +92,17 @@ var addMessage = function (text, channelId) {
     quotes.close()
 }
 
-var recall = function (callback) {
-    if (callback !== undefined) {
-        callback(randomArrayItem(messages))
+var recall = function (callback, guildId, channelId) {
+    if (callback === undefined) return
+
+    let item = undefined
+    if (channelId) {
+        item = randomArrayItem(messages.filter(x => x.channelId === channelId))
+    } else {
+        item = randomArrayItem(messages.filter(x => x.guildId === guildId))
     }
+
+    callback(item)
 }
 
 module.exports = {
