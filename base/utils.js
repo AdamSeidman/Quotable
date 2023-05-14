@@ -16,7 +16,7 @@ var copyObject = function (obj) {
 
 var randomArrayItem = function (arr) {
     if (arr === undefined || arr.length <= 1) {
-        return arr
+        return undefined
     }
     return arr[Math.floor(Math.random() * arr.length)]
 }
