@@ -74,15 +74,17 @@ var setup = function () {
     quotes.close()
 }
 
-var addMessage = function (text, channelId, guildId, userId) {
+var addMessage = function (text, channelId, guildId, userId, messageId, isBot) {
     let quotes = getDatabase('messages')
     let quote = {
         text: text,
         channelId: channelId,
         guildId: guildId,
         userId: userId,
+        messageId: messageId,
         timestamp: Date.now(),
-        isExpired: 0
+        isExpired: 0,
+        isBot: !!isBot
     }
     quotes.insert('Quotes', quote, () => {
         messages.push(quote)
@@ -100,6 +102,10 @@ var getQuote = function (guildId, channelId) {
     return item
 }
 
+var getSpecificQuote = function (messageId) {
+    return messages.find(x => x.messageId === messageId)
+}
+
 module.exports = {
-    addMessage, setup, getQuote
+    addMessage, setup, getQuote, getSpecificQuote
 }

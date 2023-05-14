@@ -5,7 +5,7 @@
  * 
  */
 
-const { botToken } = require('./config')
+const { botToken, botId } = require('./config')
 const Discord = require('discord.js')
 const recall = require('../base/recall')
 const db = require('../base/db')
@@ -22,15 +22,37 @@ bot.on('ready', () => {
     console.log('Quote Bot Initialized')
 })
 
-bot.on('messageCreate', msg => {
-    if (msg.content.toLowerCase().trim() === '!recall') {
+var relay = function (msg, origUser, failMsg, specificMsgId) {
+    if (specificMsgId !== undefined) {
+        let quote = db.getSpecificQuote(specificMsgId)
+        if (quote === undefined) {
+            msg.channel.send('I don\'t have that quote in my database.')
+        } else if (quote.guildId !== msg.guild.id) {
+            msg.channel.send('That message was not created in this server.')
+        } else {
+            recall.sendQuote(quote, origUser, msg.channel)
+        }
+    } else {
         let quote = db.getQuote(msg.guild.id)
         if (quote === undefined) {
-            msg.channel.send('There are no quotes to recall.')
+            msg.channel.send(failMsg)
         } else {
-            recall.sendQuote(quote, true, msg.channel)
+            recall.sendQuote(quote, origUser, msg.channel)
         }
-    } else if (msg.member !== null && !msg.author.bot) {
-        db.addMessage(msg.content, msg.channel.id, msg.guild.id, msg.member.id)
+    }
+}
+
+var commands = {
+    '!recall': (msg, args) => relay(msg, true, 'There are no quotes to recall.', args[0]),
+    '!requote': (msg, args) => relay(msg, false, 'There\'s nothing to requote.', args[0])
+}
+
+bot.on('messageCreate', msg => {
+    let args = msg.content.toLowerCase().trim().split(' ')
+    let cmd = args.shift()
+    if (Object.keys(commands).includes(cmd)) {
+        commands[cmd](msg, args.length === 0? [undefined] : args)
+    } else if (msg.member !== null && msg.member.id !== botId) {
+        db.addMessage(msg.content, msg.channel.id, msg.guild.id, msg.member.id, msg.id, msg.author.bot)
     }
 })
