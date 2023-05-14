@@ -12,8 +12,6 @@
  *         Runs a provided callback on random quote.
  */
 
-// TODO filter recall by guildId
-
 const sqlite3 = require('sqlite3').verbose()
 const { randomArrayItem } = require('./utils')
 
@@ -106,7 +104,5 @@ var recall = function (callback, guildId, channelId) {
 }
 
 module.exports = {
-    addMessage,
-    setup,
-    recall
+    addMessage, setup, recall
 }
