@@ -1,3 +1,4 @@
 module.exports = {
-    botToken: 'abc'
+    botToken: 'abc',
+    botId: '123'
 }
