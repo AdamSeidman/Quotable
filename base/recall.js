@@ -59,7 +59,7 @@ var sendQuote = async function (quote, useOriginalUser, channel) {
         sendQuoteViaWebhook(quote.text, channel, quote.userId)
     } else {
         let user = await getUserById(quote.userId)
-        channel.send(`"${quote.text}" - ${user.username} ${new Date(quote.timestamp).toLocaleString(LOCALE)}`)
+        channel.send(`"${quote.text}" - ${user.username} (${new Date(quote.timestamp).toLocaleString(LOCALE)})`)
     }
 }
 
