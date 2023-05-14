@@ -7,7 +7,7 @@
 
 const { botToken } = require('./config')
 const Discord = require('discord.js')
-
+const recall = require('../base/recall')
 const db = require('../base/db')
 
 // Bot Intentions
@@ -18,11 +18,20 @@ bot.login(botToken)
 
 bot.on('ready', () => {
     db.setup()
+    recall.registerClient(bot)
     console.log('Quote Bot Initialized')
 })
 
 bot.on('messageCreate', msg => {
-    if (msg.member !== null && !msg.author.bot) {
-        db.addMessage(msg.content, msg.channel.id)
+    if (msg.content.toLowerCase().trim() === '!recall') {
+        db.recall(async quote => {
+            if (quote === undefined) {
+                msg.channel.send('There are no quotes to recall.')
+            } else {
+                recall.sendQuote(quote, true, msg.channel)
+            }
+        }, msg.guild.id)
+    } else if (msg.member !== null && !msg.author.bot) {
+        db.addMessage(msg.content, msg.channel.id, msg.guild.id, msg.member.id)
     }
 })
