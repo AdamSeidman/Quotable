@@ -1,4 +1,4 @@
-# Qrispiet Quotes
+# Quotable
 >[Discord](https://discord.com) bot to track messages from users and requote them.
 
 Click here: [Invite Link](https://discord.com/oauth2/authorize?client_id=1106752785803902976&scope=bot&permissions=62981102632928)
